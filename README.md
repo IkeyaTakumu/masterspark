@@ -7,7 +7,7 @@ webカメラで取得した画像上の枠内に手が入ったことを検知�
 * escキーで終了
 
 # 実行
-"$python main.py --window_width 1280 --window_height 720 = 1"
+'''$python main.py --window_width 1280 --window_height 720'''
 --window_height:ウィンドウの高さを設定
 --window_width:ウィンドウの幅を設定
 --bdbox_xp:青枠の初期位置を設定
