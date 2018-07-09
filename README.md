@@ -24,5 +24,3 @@ webカメラで取得した画像上の枠内に手が入ったことを検知�
 # 実行画面
 <img src = "https://user-images.githubusercontent.com/37826053/42122640-aca1b7e6-7c7f-11e8-9bcd-50193faef0e5.jpg" width="400px" height="225">
 
-### test
-test
