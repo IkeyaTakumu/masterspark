@@ -98,9 +98,9 @@ class BDBox:
     def tracking(self,img):
         #imageのHSV変換
         hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        #tをトリガーとして取得した手の色ヒストグラムを特徴量として，画像の類似度を判定
+        #tをトリガーとして取得した手の色ヒストグラムを逆投影することで領域内の二次元確率密度分布画像を生成
         dst = cv2.calcBackProject([hsv_img],[0],self.roi_hist,[0,180], 1)
-        #物体の検出
+        #二次元確率密度分布が極大となる方向へboxを移動
         ret, track_window = cv2.meanShift(dst,(self.upperleft_x,self.upperleft_y,self.box_width,self.box_height), self.term_crit)
         #物体検出で取得した座標を次のboxの座標へぶちこむ
         x,y,w,h = track_window
