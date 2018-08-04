@@ -29,7 +29,7 @@ class BDBox:
             y = height
 
         self.track_mode = track_mode
-        self.point_num = 500
+        self.point_num = 50
         self.flag_hand = False
         self.pre_flag_hand = False
         self.start_time = 0
@@ -162,7 +162,7 @@ class BDBox:
 
             gray_frame = cv2.cvtColor(self.frame,cv2.COLOR_BGR2GRAY)
             now_croped_frame = cropping(self.frame,self.upperleft_x,self.upperleft_y,self.upperleft_x + self.box_width,self.upperleft_y + self.box_height) #現在フレームをクロップ
-            self.pre_croped_feature = cv2.goodFeaturesToTrack(self.pre_croped_frame,self.point_num,0.1,5) #過去フレームをクロップ
+            self.pre_croped_feature = cv2.goodFeaturesToTrack(self.pre_croped_frame,self.point_num,0.1,10) #過去フレームをクロップ
 
             for i in range(self.pre_croped_feature.shape[0]):
                 if i == 0:
