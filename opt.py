@@ -37,6 +37,11 @@ def parse_opts():
         default = 200,
         type = int
     )
+    parser.add_argument(
+        '--track_mode',
+        default = "cam",
+        type = str
+    )
     args = parser.parse_args()
 
     return args

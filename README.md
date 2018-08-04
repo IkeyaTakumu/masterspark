@@ -7,7 +7,7 @@ webカメラで取得した画像上の枠内に手が入ったことを検知�
 * escキーで終了
 
 # 実行
-`python main.py --window_width 1280 --window_height 720 --bdbox_xp 10 --bdbox_yp 10 --bdbox_width 200 --bdbox_height 200 --camera_id 0`
+`python main.py --window_width 1280 --window_height 720 --bdbox_xp 10 --bdbox_yp 10 --bdbox_width 200 --bdbox_height 200 --camera_id 0 --track_mode cam`
 
 * --window_height:ウィンドウの高さを設定
 * --window_width:ウィンドウの幅を設定
@@ -16,6 +16,8 @@ webカメラで取得した画像上の枠内に手が入ったことを検知�
 * --bdbox_width:青枠の幅を設定
 * --bdbox_height:青枠の高さを設定
 * --camera_id:webカメラのidを設定
+* --track_mode:トラッキング手法の変更（"cam":camshiftによる追跡，"lk":Lucas-kanadeによるオプティカルフローで手領域追跡）
+
 # 環境
 * python 3.5.4
 * opencv 3.3.1
@@ -23,4 +25,3 @@ webカメラで取得した画像上の枠内に手が入ったことを検知�
 
 # 実行画面
 <img src = "https://user-images.githubusercontent.com/37826053/42122640-aca1b7e6-7c7f-11e8-9bcd-50193faef0e5.jpg" width="400px" height="225">
-

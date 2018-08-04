@@ -9,11 +9,11 @@ import serial
 from opt import parse_opts
 
 #緑：Hue : 60	Saturation : 100	Brightness : 71
-lower_green = np.array([30, 90, 30])
-upper_green = np.array([80, 255, 255])
+lower_green = np.array([20, 50, 40])
+upper_green = np.array([90, 255, 255])
 lower_w = np.array([0,0,0])
 upper_w = np.array([2,2,2])
-lower_hand = np.array([0,30,50])
+lower_hand = np.array([0,10,40])
 upper_hand = np.array([50,150,255])
 
 #入力>255であれば255を返し，0 <= 入力 <= 255であれば入力をそのまま返し，入力 < 0であれば0を返す
@@ -24,6 +24,7 @@ def lamp(x):
         return x
     elif x < 0:
         return 0
+
 """
 左クリック時：GBの閾値を変える
 右クリック時：肌色の閾値を変える
@@ -69,19 +70,20 @@ if __name__ == '__main__':
     back = cv2.imread(back_ground_path)#背景とロゴの読み込み
     back = cv2.resize(back,(opt.window_width,opt.window_height))#背景を指定サイズにリサイズ
     back_hsv = cv2.cvtColor(back, cv2.COLOR_BGR2HSV)#背景をHSV変換
-    bdbox = BDBox(x = opt.bdbox_xp,y = opt.bdbox_yp,width = opt.bdbox_width,height = opt.bdbox_height,ac = 20)#BDBのオブジェクト生成
+    bdbox = BDBox(x = opt.bdbox_xp,y = opt.bdbox_yp,width = opt.bdbox_width,height = opt.bdbox_height,ac = 20,track_mode = opt.track_mode)#BDBのオブジェクト生成
+    bdbox.mp3_load()
     cv2.namedWindow("gousei")
     cv2.setMouseCallback("gousei", EstHsvThreash)
 
     while end_flag == True:
         img = cv2.resize(c_frame,(opt.window_width,opt.window_height))#キャプチャをリサイズ
         disp = composition_chrom(back, img, upper_green, lower_green)#キャプチャと背景をクロマキー合成
-        disp_with_box = bdbox.draw_box(disp)#BoundingBoxの合成
+        disp_with_box = bdbox.draw_box(disp,img)#BoundingBoxの合成
         bdbox.move_box_point(disp_with_box)#boxを動かす
-        bdbox.hand_in_box(img, upper_hand, lower_hand)#box内に手があるか
+        bdbox.hand_in_box(img, upper_green, lower_green)#box内に手があるか
         if bdbox.flag_hand:#box内に手がある場合実行
             if gerobi_flag:#ビーム動画が再生されているとき
-                disp_with_box = gerobi(disp_with_box, gerobi_frame, bdbox.center_p_x, bdbox.center_p_y,opt.window_width,opt.window_height)
+                disp_with_box = gerobi(disp_with_box, gerobi_frame, bdbox.center_p_x, bdbox.center_p_y,opt.window_width,opt.window_height,bdbox.box_degree)
                 #ser.write(bytes("s","utf-8"))
                 gerobi_flag, gerobi_frame = masterspark.read()#ゲロビフレーム読み込み
             elif not gerobi_flag:#ビーム動画が全フレーム再生されたとき
