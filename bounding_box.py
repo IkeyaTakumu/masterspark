@@ -189,7 +189,7 @@ class BDBox:
                     all_dx = np.append(all_dx,dx)
                     all_dy = np.append(all_dy,dy)
 
-                img_dst = cv2.circle(img,(int(now_x),int(now_y)),2,(0,0,255),-1)
+                #img_dst = cv2.circle(img,(int(now_x),int(now_y)),2,(0,0,255),-1)
 
             median_dx = int(np.median(all_dx))
             median_dy = int(np.median(all_dy))
@@ -230,7 +230,7 @@ class BDBox:
             self.center_p_y = self.upperleft_y + int(self.box_height/2)
             upperleft = (self.upperleft_x,self.upperleft_y)
             downright = (self.downright_x,self.downright_y)
-            cv2.rectangle(img_dst,(upperleft),(downright),self.color,10)
+            cv2.rectangle(img,(upperleft),(downright),self.color,10)
         return img_dst
 
     def mp3_load(self):
