@@ -84,6 +84,16 @@ class BDBox:
         if (not self.pre_flag_hand) and self.flag_hand:
             self.start_time = time.time()
             pygame.mixer.music.play(-1)
+        elif (not self.flag_hand) and self.pre_flag_hand:
+            self.flag_track = False
+            self.upperleft_x = int(self.frame.shape[1]/2) - int(self.box_width/2)
+            self.upperleft_y = int(self.frame.shape[0]/2) - int(self.box_height/2)
+            self.upperright_x = self.upperleft_x + self.box_width
+            self.upperright_y = self.upperleft_y
+            self.downright_x = self.upperright_x
+            self.downright_y = self.upperright_y + self.box_height
+            self.center_p_x = self.upperleft_x + int(self.box_width/2)
+            self.center_p_y = self.upperleft_y + int(self.box_height/2)
         self.pre_flag_hand = self.flag_hand
 
     def move_box_point(self,image):#w,a,s,dが押されたときに青枠の移動と追跡開始のフラグ作成
@@ -162,7 +172,7 @@ class BDBox:
 
             gray_frame = cv2.cvtColor(self.frame,cv2.COLOR_BGR2GRAY)
             now_croped_frame = cropping(self.frame,self.upperleft_x,self.upperleft_y,self.upperleft_x + self.box_width,self.upperleft_y + self.box_height) #現在フレームをクロップ
-            self.pre_croped_feature = cv2.goodFeaturesToTrack(self.pre_croped_frame,self.point_num,0.1,10) #過去フレームをクロップ
+            self.pre_croped_feature = cv2.goodFeaturesToTrack(self.pre_croped_frame,self.point_num,0.4,10) #過去フレームをクロップ
 
             for i in range(self.pre_croped_feature.shape[0]):
                 if i == 0:
@@ -189,7 +199,7 @@ class BDBox:
                     all_dx = np.append(all_dx,dx)
                     all_dy = np.append(all_dy,dy)
 
-                #img_dst = cv2.circle(img,(int(now_x),int(now_y)),2,(0,0,255),-1)
+                img_dst = cv2.circle(img,(int(now_x),int(now_y)),2,(0,0,255),-1)
 
             median_dx = int(np.median(all_dx))
             median_dy = int(np.median(all_dy))
@@ -230,7 +240,7 @@ class BDBox:
             self.center_p_y = self.upperleft_y + int(self.box_height/2)
             upperleft = (self.upperleft_x,self.upperleft_y)
             downright = (self.downright_x,self.downright_y)
-            cv2.rectangle(img,(upperleft),(downright),self.color,10)
+            cv2.rectangle(img_dst,(upperleft),(downright),self.color,10)
         return img_dst
 
     def mp3_load(self):
